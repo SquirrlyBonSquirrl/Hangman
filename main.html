@@ -132,3 +132,26 @@
                 wrongGuesses++;
                 wrongLetters.add(letter);
             }
+            checkGameOver();
+            updateGameDisplay();
+        }
+        
+        function checkGameOver() {
+            if (wrongGuesses >= maxLives) {
+                document.getElementById('resultMessage').innerText = `Game Over! The word was: ${currentWord}`;
+                document.getElementById('gameOver').style.display = 'block';
+                setTimeout(startNewGame, 2000);
+            } else if (currentWord.split('').every(l => guessedLetters.includes(l))) {
+                document.getElementById('resultMessage').innerText = "You Won!";
+                document.getElementById('gameOver').style.display = 'block';
+                setTimeout(startNewGame, 2000);
+            }
+        }
+        
+        function showHint() {
+            document.getElementById('hint').innerText = currentCategory.find(item => item.name === currentWord).hint;
+            document.getElementById('hint').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
