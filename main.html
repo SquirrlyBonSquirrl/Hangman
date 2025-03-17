@@ -67,91 +67,53 @@
         const categories = {
             bands: [
                 { name: "NIRVANA", hint: "Grunge band from Seattle" },
-                { name: "METALLICA", hint: "Heavy metal band known for 'Enter Sandman'" }
+                { name: "METALLICA", hint: "Heavy metal band known for 'Enter Sandman'" },
+                { name: "QUEEN", hint: "Freddie Mercury's iconic band" },
+                { name: "PINKFLOYD", hint: "Psychedelic rock band known for 'The Wall'" },
+                { name: "LEDZEPPELIN", hint: "Rock band with 'Stairway to Heaven'" },
+                { name: "RADIOHEAD", hint: "British alternative rock band behind 'Creep'" },
+                { name: "BEATLES", hint: "Legendary Liverpool quartet" },
+                { name: "ACDC", hint: "Australian rock band with 'Highway to Hell'" },
+                { name: "TAMEIMPALA", hint: "Australian psychedelic music project" },
+                { name: "FOOFIGHTERS", hint: "Rock band formed by Dave Grohl" }
             ],
             animes: [
                 { name: "NARUTO", hint: "Ninja anime featuring the Hidden Leaf Village" },
-                { name: "ONEPIECE", hint: "Pirate anime following Luffy's adventure" }
+                { name: "ONEPIECE", hint: "Pirate anime following Luffy's adventure" },
+                { name: "ATTACKONTITAN", hint: "Humanity fights giant humanoid creatures" },
+                { name: "DEATHNOTE", hint: "A notebook that can kill people" },
+                { name: "DRAGONBALL", hint: "Saiyans, ki blasts, and tournaments" },
+                { name: "FULLMETALALCHEMIST", hint: "Two brothers search for the Philosopher's Stone" },
+                { name: "MYHEROACADEMIA", hint: "Superheroes and a boy who wants to be the best" },
+                { name: "HUNTERXHUNTER", hint: "A boy seeks his father and becomes a hunter" },
+                { name: "BEASTARS", hint: "Anthropomorphic animals and a murder mystery" },
+                { name: "COWBOYBEBOP", hint: "Space bounty hunters and jazz music" }
             ],
             tvshows: [
                 { name: "BREAKINGBAD", hint: "A chemistry teacher turns into a drug lord" },
-                { name: "FRIENDS", hint: "A sitcom about six New Yorkers" }
+                { name: "FRIENDS", hint: "A sitcom about six New Yorkers" },
+                { name: "THEOFFICE", hint: "A workplace comedy in Scranton" },
+                { name: "STRANGERTHINGS", hint: "Kids vs supernatural forces in the 80s" },
+                { name: "GAMEOFTHRONES", hint: "Fantasy show with dragons and thrones" },
+                { name: "SHERLOCK", hint: "Modern take on a classic detective" },
+                { name: "LOST", hint: "Plane crash survivors on a mysterious island" },
+                { name: "HOWIMETYOURMOTHER", hint: "A father tells his kids his love story" },
+                { name: "THEWITCHER", hint: "Monster hunter and a chaotic destiny" },
+                { name: "HOUSE", hint: "A genius doctor with an attitude" }
             ],
             brands: [
                 { name: "NIKE", hint: "Sportswear brand with a swoosh logo" },
-                { name: "APPLE", hint: "Tech company behind the iPhone" }
-            ],
-            people: [
-                { name: "EINSTEIN", hint: "Famous physicist known for relativity" },
-                { name: "TESLA", hint: "Inventor known for electricity and AC power" }
+                { name: "APPLE", hint: "Tech company behind the iPhone" },
+                { name: "ADIDAS", hint: "Three-stripe sports brand" },
+                { name: "TESLA", hint: "Electric car company by Elon Musk" },
+                { name: "SONY", hint: "PlayStation and electronics giant" },
+                { name: "SAMSUNG", hint: "Korean tech brand known for phones" },
+                { name: "GUCCI", hint: "Luxury fashion brand from Italy" },
+                { name: "COCA-COLA", hint: "Famous soda brand" },
+                { name: "MICROSOFT", hint: "Creators of Windows OS" },
+                { name: "LEGO", hint: "Colorful brick-building toy company" }
             ]
         };
-        
-        let currentCategory, currentWord, guessedLetters, wrongGuesses, maxLives = 6;
-        let previousWords = new Set();
-        let wrongLetters = new Set();
-        
-        function selectCategory(category) {
-            currentCategory = [...categories[category]];
-            document.querySelector('.category-selection').style.display = 'none';
-            document.getElementById('gameContainer').style.display = 'block';
-            startNewGame();
-        }
-        
-        function startNewGame() {
-            if (previousWords.size === currentCategory.length) {
-                previousWords.clear();
-            }
-            
-            let randomItem;
-            do {
-                randomItem = currentCategory[Math.floor(Math.random() * currentCategory.length)];
-            } while (previousWords.has(randomItem.name));
-            
-            previousWords.add(randomItem.name);
-            currentWord = randomItem.name;
-            guessedLetters = [];
-            wrongLetters.clear();
-            wrongGuesses = 0;
-            document.getElementById('hint').style.display = 'none';
-            document.getElementById('gameOver').style.display = 'none';
-            updateGameDisplay();
-        }
-        
-        function updateGameDisplay() {
-            document.getElementById('word').innerHTML = currentWord.split('').map(l => guessedLetters.includes(l) ? l : '_').join(' ');
-            document.getElementById('lives').innerHTML = `Lives: ${'❤️'.repeat(maxLives - wrongGuesses)}`;
-            document.getElementById('keyboard').innerHTML = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(letter => 
-                `<button onclick="handleGuess('${letter}')" ${guessedLetters.includes(letter) || wrongLetters.has(letter) ? 'disabled' : ''}>${letter}</button>`).join('');
-        }
-        
-        function handleGuess(letter) {
-            if (currentWord.includes(letter)) {
-                guessedLetters.push(letter);
-            } else {
-                wrongGuesses++;
-                wrongLetters.add(letter);
-            }
-            checkGameOver();
-            updateGameDisplay();
-        }
-        
-        function checkGameOver() {
-            if (wrongGuesses >= maxLives) {
-                document.getElementById('resultMessage').innerText = `Game Over! The word was: ${currentWord}`;
-                document.getElementById('gameOver').style.display = 'block';
-                setTimeout(startNewGame, 2000);
-            } else if (currentWord.split('').every(l => guessedLetters.includes(l))) {
-                document.getElementById('resultMessage').innerText = "You Won!";
-                document.getElementById('gameOver').style.display = 'block';
-                setTimeout(startNewGame, 2000);
-            }
-        }
-        
-        function showHint() {
-            document.getElementById('hint').innerText = currentCategory.find(item => item.name === currentWord).hint;
-            document.getElementById('hint').style.display = 'block';
-        }
     </script>
 </body>
 </html>
